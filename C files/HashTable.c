@@ -99,6 +99,3 @@ int Delite(struct HashMap *map, uint32_t key){
 	return 0;
 }
 
-
-
-
