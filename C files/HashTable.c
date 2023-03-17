@@ -4,63 +4,7 @@
 #include <math.h>
 #include "../Header files/HashTable.h"
 #include "../Header files/CreateAccount.h"
-#include "../Header files/SaveHm.h"
-/*
-int main(void){
-		
-	struct HashMap *MAP = NULL;
-	MAP = CreateHM(100);
-
-	FILE *cvs = NULL;
-	char filename[50] = "demo.txt";
-
-	FILE *cvs2 = fopen("demo2.txt", "w+");
-	char filename2[50] = "demo2.txt";
-
-	char *str2 = "Fuck you, world\n";
-	fprintf(cvs2, "%s", str2);
-
-	//Create a file and write some txt to it.
-	cvs = fopen("demo.txt", "w+");
-	char *str = "Hello, world\n";
-	fprintf(cvs, "%s", str);
-
-	Insert(cvs2, 19, MAP, filename2);
-	Insert(cvs, 234, MAP, filename);
-	fclose(cvs2);
-	fclose(cvs);
-
-
-	//find a head pointer and open its file and print the contents.
-	LIST hed = Search(MAP, 234);
-
-	FILE *fp = fopen(hed->filename, "r+");
-
-	//Set the file pointer to end
-	fseek(fp, 0, SEEK_END);
-	//get the size of sile in bytes.
-	long size = ftell(fp);
-	//return file pointer to the beginning of the file.
-	rewind(fp);
-
-	char* buffer = (char*) malloc(size + 1);
-	size_t result = fread(buffer, 1, size, fp);
-
-	buffer[size] = '\0';
-	printf("File contents: %s", buffer);
-
-	free(buffer);
-	fclose(fp);
-
-	for(int i = 0; i < MAP->size; i++){
-		struct bin *a = MAP->table[i];
-		printf("%p\n", a->head);
-	};
-	char binf[50] =  "hm.bin";
-		
-	WriteHm(MAP, binf);
-
-	*/	
+#include "../Header files/SaveHm.h"	
 
 uint32_t HashFunction(uint32_t key, uint32_t M){
 
