@@ -66,6 +66,7 @@ int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
 
 		Table->table[HashKey]->head = newnode;
 	}
+
 	else
 		temp = Table->table[HashKey]->head;
 		while(temp){
