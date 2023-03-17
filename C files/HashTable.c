@@ -24,7 +24,6 @@ uint32_t HashFunction(uint32_t key, uint32_t M){
 	return value % M;
 }
 
-
 struct HashMap *CreateHM(uint32_t size){
 
 	struct HashMap *Table = (struct HashMap*) malloc(sizeof(struct HashMap));
