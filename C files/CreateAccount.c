@@ -3,7 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include "../Header files/CreateAccount.h"
+#include "../Header files/HashTable.h"
+#include "../Header files/SaveHm.h"
 
 void Cunt(){
-	printf("Suck a dic\n");
+	
 }

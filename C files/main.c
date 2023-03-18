@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
     struct HashMap *MAP = CreateHM(100);
 
     // Import 10 files into the hash map
-    char filenames[10][50] = {"file021aad1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt", "file8.txt", "file9.txt", "file10.txt"};
+    char filenames[10][50] = {"file021aadsjhdgfhjsdgfjhdgfhjsdbfhksdf1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt", "file8.txt", "file9.txt", "file10.txt"};
     char content[50] = "Bunch of fucking idiots\n";
     uint32_t keys[10] = {24680,55555,12312, 234, 19, 2, 457,567,345,7897};
     
