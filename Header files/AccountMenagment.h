@@ -1,34 +1,31 @@
-#ifndef CREATE_ACCOUNTS_H
-#define CREATE_ACCOUNTS_H
-
+#ifndef ACCOUNT_MENAGMENT_H
+#define ACCOUNT_MENAGMENT_H
 #include <stdio.h>
+#include <stdint.h>
 
-void Cunt();
-
-typedef int NUM;
 
 struct DOF
 {
-	NUM dd;
-	NUM mm;
-	NUM yyyy;
+	int dd;
+	int mm;
+	int yyyy;
 };
 
 struct PersonalInfo
 {
-	signed long int OIB[11];
-    unsigned long int phone_number[50];
-	unsigned int sallary;
-	unsigned int income;
-	unsigned int debt;
-	unsigned int monthly_expences;
+	uint64_t OIB[11];
+    uint64_t phone_number[50];
+	uint32_t sallary;
+	uint32_t income;
+	uint32_t debt;
+	uint32_t monthly_expences;
 };
 
 struct Account
 {
-	unsigned int initial_deposit;
-	unsigned int withdrawl;
-	unsigned int deposit;
+	uint32_t initial_deposit;
+	uint32_t withdrawl;
+	uint32_t deposit;
 	signed long int account_balance;
 };
 
@@ -37,7 +34,7 @@ struct Address
 	char city[50];
 	char state[50];
 	char street[50];
-	NUM house_number;
+	int house_number;
 };
 
 
@@ -47,11 +44,16 @@ struct Person
 	char last_Name[50];
 	char job_title[50];
 	char email[50];
+	char password[50];
 	struct DOF dof;
 	struct PersonalInfo personal_info;
 	struct Account account;
 	struct Address address;
 };
+
+
+
+void CreateAccount(char *data_file, char *hash_map);
 
 
 

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "../Header files/HashTable.h"
-#include "../Header files/CreateAccount.h"
+#include "../Header files/AccountMenagment.h"
 #include "../Header files/SaveHm.h"	
 
 uint32_t HashFunction(uint32_t key, uint32_t M){
@@ -48,6 +48,8 @@ struct HashMap *CreateHM(uint32_t size){
 	}
 	return Table;
 }
+
+
 int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
 		
 	LIST temp = NULL;
@@ -69,9 +71,9 @@ int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
 
 	else
 		temp = Table->table[HashKey]->head;
-		while(temp){
-			temp = temp->next;
-		}
+			while(temp){
+				temp = temp->next;
+			}
 		temp = newnode;
 
 	return 0;
@@ -85,7 +87,7 @@ void* Search(struct HashMap *map, uint32_t key){
 
 }
 
-int Delite(struct HashMap *map, uint32_t key){
+int Delete(struct HashMap *map, uint32_t key){
 	
 	struct bin *b = map->table[HashFunction(key, map->size)];
 	

@@ -4,6 +4,8 @@
 #include "../Header files/HashTable.h"
 #include "../Header files/SaveHm.h"
 #include "../Header files/Testhm.h"
+#include "../Header files/AccountMenagment.h"
+
 
 
 
@@ -18,7 +20,7 @@ int main(int argc, char *argv[]){
     // Import 10 files into the hash map
     char filenames[10][50] = {"file021aadsjhdgfhjsdgfjhdgfhjsdbfhksdf1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt", "file8.txt", "file9.txt", "file10.txt"};
     char content[50] = "Bunch of fucking idiots\n";
-    uint32_t keys[10] = {24680,55555,12312, 234, 19, 2, 457,567,345,7897};
+    uint32_t keys[10] = {24680,55555,12312, 234, 19,264,464,237,63,12};
     
     for (int i = 0; i < 10; i++) {
         char filename[50];
@@ -51,6 +53,7 @@ int main(int argc, char *argv[]){
         }
     }
     printf("\n");
+
 
     return 0;
 	

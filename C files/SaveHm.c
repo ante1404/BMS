@@ -25,10 +25,13 @@ void WriteHm(struct HashMap *map, char *filename){
         struct bin *b = map->table[i];
         if (b->head != NULL)
         {
-            fwrite(&b->head->key, sizeof(uint32_t), 1, HM);
-            int len = strlen(b->head->filename);
-            fwrite(&len, sizeof(int), 1, HM);
-            fwrite(b->head->filename, len, 1, HM);
+            while (b->head) {
+                fwrite(&b->head->key, sizeof(uint32_t), 1, HM);
+                int len = strlen(b->head->filename);
+                fwrite(&len, sizeof(int), 1, HM);
+                fwrite(b->head->filename, len, 1, HM);
+                b->head = b->head->next;
+            }
         }
     }
     fclose(HM);
