@@ -11,27 +11,34 @@ void CreateAccount(char *data_file, char *hash_map){
 
 	//argv[1] is the name of the of the  file containing the data for creating account.
 	FILE *data = fopen(data_file, "r");
-
-	struct HashMap *MAP = ReadHm(hash_map);
-	
-	char c;
-	char buffer[50];
+	char buffer[50][2048];
 	int i = 0;
-	char name[50];
-	FILE *account = NULL;
-	while((c = fgetc(data)) != EOF){
-		buffer[i] = c;
+	
+	struct HashMap *Map = ReadHm(hash_map);
+	
+	//Read data from file into buffer
+	while(!feof(data)){
+	
+		fgets(buffer[i], sizeof(buffer), data);
 		i++;
-		//
-		if (c == '/' && i == 0) {
-			buffer[i] = '\0';
-			strcpy(name, buffer);
-			account = fopen(name, "w");
+	}
+	char name[50];
+	strcpy(name, buffer[0]);
+	int len = strlen(buffer[0]);
+	if (buffer[0][len-1] == '\n') {
+		name[len-1] = '\0';
+	}
+	strcat(name, ".txt");
+	FILE *account = fopen(name, "w");
 
-		}
-		fprintf(account, "%s", buffer);
+	for (int i = 0; i < 50; i++) {
+	
+		fprintf(account, "%s", buffer[i]);
 	}
 
-	Insert(4353, MAP, name);
+	fclose(account);
+	fclose(data);
+	Insert(12436, Map, name);
+	WriteHm(Map, hash_map);
 
 }
