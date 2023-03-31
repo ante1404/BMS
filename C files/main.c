@@ -24,14 +24,16 @@ int main(int argc, char *argv[]){
         if (b->head != NULL)
         {   
             while (b->head) {
-                printf("Pointer = %p, Key = %d, Filename = %s\n", b->head, b->head->key, b->head->filename);
+                printf("Pointer = %p, Key = %d, Filename = %s, next pointer = %p\n", b->head, b->head->key, b->head->filename, b->head->next);
                 b->head = b->head->next;
+
             }
         }
+
     }
     printf("\n");
 
-    WriteHm(map, filename3);
+ //   WriteHm(MAP, filename3);
 
 
     return 0;

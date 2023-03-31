@@ -38,7 +38,7 @@ void CreateAccount(char *data_file, char *hash_map){
 
 	fclose(account);
 	fclose(data);
-	Insert(12436, Map, name);
+	Insert(12, Map, name);
 	WriteHm(Map, hash_map);
 
 }

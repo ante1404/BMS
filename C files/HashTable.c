@@ -69,12 +69,13 @@ int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
 		Table->table[HashKey]->head = newnode;
 	}
 
-	else
+	else{
 		temp = Table->table[HashKey]->head;
-			while(temp){
+			while(temp->next){
 				temp = temp->next;
 			}
-		temp = newnode;
+		temp->next = newnode;
+	}
 
 	return 0;
 }
@@ -98,7 +99,8 @@ int Delete(struct HashMap *map, uint32_t key){
 		free(b->head);
 		b->head = temp;
 	}
-
+	free(map->table);
+	free(map);
 	return 0;
 }
 
