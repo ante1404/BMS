@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,20 +9,9 @@
 
 uint32_t HashFunction(uint32_t key, uint32_t M){
 
-	uint32_t copy = key;
-	uint32_t value = 1;
-	uint32_t mod = 0;
+	
 
-	while(key != 0){
-
-		mod = key % 10;
-		value *= mod;
-		key/= 10;
-	}
-
-	value = pow(value,3);
-
-	return value % M;
+	return key % M;
 }
 
 struct HashMap *CreateHM(uint32_t size){

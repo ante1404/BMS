@@ -2,7 +2,7 @@
 #define ACCOUNT_MENAGMENT_H
 #include <stdio.h>
 #include <stdint.h>
-
+#include <stdbool.h>
 
 struct DOF
 {
@@ -54,7 +54,8 @@ struct Person
 
 
 void CreateAccount(char *data_file, char *hash_map);
-
+uint32_t StrToInt(char *password);
+bool Login(char *username, char *password, char *hash_map);
 
 
 #endif
