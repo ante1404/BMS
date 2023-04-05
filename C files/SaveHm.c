@@ -15,10 +15,12 @@ struct Data{
 void WriteHm(struct HashMap *map, char *filename){
 
 	FILE *HM = fopen(filename, "wb");
+
     if (HM == NULL)
     {
         return;
     }
+    
     fwrite(&map->size, sizeof(uint32_t), 1, HM);
     for (int i = 0; i < map->size; i++)
     {
@@ -34,6 +36,7 @@ void WriteHm(struct HashMap *map, char *filename){
             }
         }
     }
+    
     fclose(HM);
 
 }
