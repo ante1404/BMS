@@ -38,7 +38,7 @@ void CreateAccount(char *data_file, char *hash_map){
 	if (strcmp(&buffer[0][len-1], "\n") == 0) {
 		name[len-1] = '\0';
 	}
-
+	
 	strcat(name, ".txt");
 	strcat(path, name);
 	FILE *account = fopen(path, "w");

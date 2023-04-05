@@ -3,6 +3,7 @@ import tkinter
 from PIL import ImageTk, Image
 import subprocess
 
+
 class MainScreen(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -11,7 +12,6 @@ class MainScreen(customtkinter.CTkFrame):
         self.header.place(relx=0.5, rely=0.5)
         
         
-
 class CreateAccount(customtkinter.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
