@@ -5,19 +5,20 @@
 #include <stdbool.h>
 #include <wchar.h>
 #include <locale.h>
+#include "../Header files/FinanceMenagment.h"
 #include "../Header files/AccountMenagment.h"
 #include "../Header files/HashTable.h"
 #include "../Header files/SaveHm.h"
 
 
-void CreateAccount(char *data_file, char *hash_map){
+char *CreateAccount(char *data_file, char *hash_map){
 	
 	//argv[1] is the name of the of the  file containing the data for creating account.
 	
 	FILE *data = fopen(data_file, "r");
 	if (data == NULL)
 	{
-		return;
+		return NULL;
 	}
 	
 	char buffer[50][2048];	
@@ -26,7 +27,6 @@ void CreateAccount(char *data_file, char *hash_map){
 	//Read data from file into buffer
 	while(!feof(data)){
 
-		//fread(&buffer[i], sizeof(char), 1, data);
 		fgets(buffer[i], sizeof(buffer), data);
 		i++;
 	}
@@ -38,7 +38,7 @@ void CreateAccount(char *data_file, char *hash_map){
 	if (strcmp(&buffer[0][len-1], "\n") == 0) {
 		name[len-1] = '\0';
 	}
-	
+
 	strcat(name, ".txt");
 	strcat(path, name);
 	FILE *account = fopen(path, "w");
@@ -53,13 +53,21 @@ void CreateAccount(char *data_file, char *hash_map){
 	Insert(key, Map, name);
 	WriteHm(Map, hash_map);
 
+	char *acc;
+	acc = (char*)malloc(100 * sizeof(char));
+	strcpy(acc, path);
+
+	return acc;
+
 }
+
 
 bool Login(char *username, char *password, char *hash_map){
 
 	struct HashMap *map = ReadHm(hash_map);
 	char buffer[50][2048];
 	int j = 0;
+	
 
 	for (int i = 0; i < map->size; i++) {
 		
@@ -69,11 +77,13 @@ bool Login(char *username, char *password, char *hash_map){
 
 				char path[100] = "C:/Users/Ante/Desktop/GUI/Accounts/";
 				strcat(path, b->head->filename);
+				
 				FILE *acc = fopen(path, "r");
 				while(!feof(acc)){
 					fgets(buffer[j], sizeof(buffer), acc);
 					j++;
 				}
+
 				int len = strlen(buffer[0]);
 				int len2 = strlen(buffer[2]);
 				
@@ -82,10 +92,12 @@ bool Login(char *username, char *password, char *hash_map){
 					buffer[2][len2-1] ='\0';
 				}
 				if(strcmp(buffer[0], username) == 0 && strcmp(buffer[2], password) == 0){
+					printf("%s", path);
 					return true;
 				}
 				b->head = b->head->next;
 				j=0;
+				
 				fclose(acc);
 			}
 		}

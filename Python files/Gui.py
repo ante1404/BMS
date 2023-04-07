@@ -3,20 +3,48 @@ import tkinter
 from PIL import ImageTk, Image
 import subprocess
 
+info = []
+output = ""
 
 class MainScreen(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         
-        self.header = customtkinter.CTkLabel(self, text="BUTON")
-        self.header.place(relx=0.5, rely=0.5)
+        self.balance = 234534
+        
+        with open(output, "r", encoding=('utf-8')) as file:
+            line = file.readline()
+            while line:
+                info.append(line.strip())  # remove newline character and append to list
+                line = file.readline()
+
+        
+        self.button_frame = customtkinter.CTkFrame(master=self, bg_color="black" ,fg_color=("#1A2F3C"), border_width=2,corner_radius=0)
+        self.button_frame.place(relwidth=0.2, relheight=1.0,relx=0.0, rely=0.5, anchor="w",bordermode="outside")
+    
+        self.balance_frame = customtkinter.CTkFrame(master=self, border_width=2,corner_radius=0,fg_color=("#222222")) 
+        self.balance_frame.place(relwidth=0.8, relheight=0.307, relx=0.6, rely=0.0, anchor="n")
+        
+        self.label = customtkinter.CTkLabel(self.balance_frame, font=("bold",23),text=str(info[16]), fg_color=("#222222"))
+        self.label.place(relx=0.2, rely=0.2)
+        
+        self.history_frame = customtkinter.CTkFrame(master=self,border_width=2,corner_radius=0)
+        self.history_frame.place(relwidth=0.8, relheight=0.7, relx=1, rely=0.65, anchor="e")
+        
+        self.transfer = customtkinter.CTkButton(self.history_frame, text="Transfer", fg_color=("#222222"), command=self.Transfer)
+        self.transfer.place(relwidth=0.1, relheight=0.1, relx=0.949, rely=0.004, anchor="n")
+        
+    def Transfer(self):
+        info[16] = str(int(info[16]) + 1)
+        self.label.configure(text=str(info[16]))
         
         
+
 class CreateAccount(customtkinter.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         
-        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1) # type: ignore
         self.grid_columnconfigure((0,1), weight=1) # type: ignore
         
         self.label = customtkinter.CTkLabel(self,text="Create Account")
@@ -79,13 +107,16 @@ class CreateAccount(customtkinter.CTkScrollableFrame):
         self.initial_deposit = customtkinter.CTkEntry(self,  width=145, height=25, fg_color=("white", "gray75"), placeholder_text_color="black", placeholder_text="Initial deposit", text_color="black")
         self.initial_deposit.grid(row=12, column=0, sticky="w", pady=5)
         
+        self.cc = customtkinter.CTkEntry(self,  width=145, height=25, fg_color=("white", "gray75"), placeholder_text_color="black", placeholder_text="type of credit card", text_color="black")
+        self.cc.grid(row=12, column=0, sticky="e", pady=5)
+        
     
       
     def CreateAcc(self):
         
         entries = [self.name, self.email, self.password, self.last_name,self.job_title, self.phone_number,
                         self.OIB, self.city, self.state, self.street, self.house_number, self.date_ofBirth,
-                        self.salary, self.income, self.debt, self.monthly_expences, self.initial_deposit]
+                        self.salary, self.income, self.debt, self.monthly_expences, self.initial_deposit, self.cc]
         
         return entries
 
@@ -128,7 +159,6 @@ class App(customtkinter.CTk):
         self.button = customtkinter.CTkButton(self.my_frame, text="Login", command=self.Login)
         self.button.place(x = 235, y = 320, anchor=tkinter.CENTER)
 
-        
         self.newacc = customtkinter.CTkButton(self.my_frame, text="Create Account",command=self.CreateAccFrame)
         self.newacc.place(x = 85, y = 320, anchor=tkinter.CENTER)
         
@@ -151,9 +181,12 @@ class App(customtkinter.CTk):
         self.path = 'C:/Users/Ante/Desktop/GUI/C files/login.exe'
         self.hmpath = 'C:/Users/Ante/Desktop/GUI/C files/HashMap.bin'
         
-        self.login = subprocess.run([self.path, username, password, self.hmpath])
-        output = self.login.returncode
-        if output == 0:
+        self.login = subprocess.run([self.path, username, password, self.hmpath], stdout=subprocess.PIPE)
+        print(self.login.returncode)
+        global output
+        output = self.login.stdout
+        print(output)
+        if self.login.returncode == 0:
             self.my_frame.place_forget()
             self.button.place_forget()
             self.mainScreen()
@@ -164,6 +197,7 @@ class App(customtkinter.CTk):
         
         """Request data enterd by the user and writes to a file which is goint to be proccesess by './out'"""
         data = []
+        global info
         data = self.my_frame3.CreateAcc()
         
         f = open('C:/Users/Ante/Desktop/GUI/C files/Data.txt', 'wb')
@@ -171,35 +205,39 @@ class App(customtkinter.CTk):
             buffer = i.get()
             f.write(buffer.encode("utf-8"))
             f.write('\n'.encode("utf-8"))
+            info.append(buffer)
             
         f.close()  
         self.hmpath = 'C:/Users/Ante/Desktop/GUI/C files/HashMap.bin'
         self.path = 'C:/Users/Ante/Desktop/GUI/C files/out.exe'
         self.datapath = 'C:/Users/Ante/Desktop/GUI/C files/Data.txt'
-        self.out = subprocess.run([self.path, self.hmpath, self.datapath])
+        self.output1 = 12
+        self.out = subprocess.run([self.path, self.hmpath, self.datapath], stdout=subprocess.PIPE)
         
-        result = self.out.returncode
-        if result == 0:
+        global output
+        output = self.out.stdout
+        print(output)
+        if self.out.returncode == 0:
             self.my_frame.place_forget()
             self.my_frame3.place_forget()
             self.mainScreen()
              
             
     def mainScreen(self):
-        self.button_frame = MainScreen(master=self, bg_color="black" ,fg_color=("#1A2F3C"), border_width=2,corner_radius=0)
-        self.button_frame.place(relwidth=0.2, relheight=1.0,relx=0.0, rely=0.5, anchor="w",bordermode="outside")
-    
-        self.balance_frame = MainScreen(master=self, border_width=2,corner_radius=0)
-        self.balance_frame.place(relwidth=0.8, relheight=0.307, relx=0.6, rely=0.0, anchor="n")
+        self.frame = MainScreen(self)
+        self.frame.pack(expand=True, fill="both")
         
-        self.history_frame = MainScreen(master=self,border_width=2,corner_radius=0)
-        self.history_frame.place(relwidth=0.8, relheight=0.7, relx=1, rely=0.65, anchor="e")
+    
+        
         
         
         
 def main():
     
     login_window = App()
+    
+    
+        
 
    
     login_window.mainloop()

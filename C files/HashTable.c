@@ -9,8 +9,6 @@
 
 uint32_t HashFunction(uint32_t key, uint32_t M){
 
-	
-
 	return key % M;
 }
 
@@ -50,7 +48,7 @@ int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
 	}
 	strcpy(newnode->filename, fn);
 	newnode->key = key;
-
+	
 	uint32_t HashKey = 	HashFunction(key, Table->size);
 	newnode->next = NULL;
 
@@ -58,7 +56,6 @@ int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
 
 		Table->table[HashKey]->head = newnode;
 	}
-
 	else{
 		temp = Table->table[HashKey]->head;
 			while(temp->next){
