@@ -19,7 +19,6 @@ int CreditCardCreation(char *account, char *hash_map, int card_info[]){
     struct HashMap *map = ReadHm(hash_map);
 
     int i = 0;
-    char card1[50];
     int n = 0;
 
     while (!feof(data))
@@ -31,7 +30,7 @@ int CreditCardCreation(char *account, char *hash_map, int card_info[]){
 
         while (1)
         {
-            int *card;
+            int *card = NULL;;
             card = (int*)malloc(card_info[1] * sizeof(int));
             memset(card, 0, card_info[1] * sizeof(int));
             card[0] = 3;
@@ -53,15 +52,18 @@ int CreditCardCreation(char *account, char *hash_map, int card_info[]){
                     }
                     fprintf(data, "%d", card[i]);
                 }
+                free(card);
                 break;
             }
+            free(card);
         }
     }
+
     else{
 
         while (1)
         {
-            int *card;
+            int *card = NULL;
             card = (int*)malloc(card_info[1] * sizeof(int));
             memset(card, 0, card_info[1] * sizeof(int));
             card[0] = card_info[0];
@@ -74,7 +76,6 @@ int CreditCardCreation(char *account, char *hash_map, int card_info[]){
             if (check == 0)
             {
                 n = card_info[1];
-                n = card_info[1];
                 for (int i = 0; i < n; i++) {
                     if (i == 0)
                     {
@@ -82,15 +83,16 @@ int CreditCardCreation(char *account, char *hash_map, int card_info[]){
                     }
                     fprintf(data, "%d", card[i]);
                 }
-
+                free(card);
                 break;
             }
+            free(card);
         }
     }
 
-    char temp[21];
-    int ban_nums[19];
-    memset(ban_nums,0, 19 * sizeof(int));
+    char temp[21] = "";
+    int ban_nums[19] = {0};
+
     for (int i = 0; i < 9; i++)
     {
         ban_nums[i] = rand() % 10;
@@ -101,10 +103,9 @@ int CreditCardCreation(char *account, char *hash_map, int card_info[]){
 
 
     fprintf(data, "\n%s\n", iban);
-    fprintf(data, "%s\n", card1);
 
     fclose(data);
-
+    Delete(map);
     return 0;
 
 }

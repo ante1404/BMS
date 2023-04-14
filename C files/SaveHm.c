@@ -20,34 +20,44 @@ void WriteHm(struct HashMap *map, char *filename){
     {
         return;
     }
-    
+
+    struct Node *temp = NULL;
+
     fwrite(&map->size, sizeof(uint32_t), 1, HM);
     for (int i = 0; i < map->size; i++)
     {
         struct bin *b = map->table[i];
         if (b->head != NULL)
         {
-            while (b->head) {
-                fwrite(&b->head->key, sizeof(uint32_t), 1, HM);
-                int len = strlen(b->head->filename);
+            temp = b->head;
+            while (temp) {
+                fwrite(&temp->key, sizeof(uint32_t), 1, HM);
+                int len = strlen(temp->filename);
                 fwrite(&len, sizeof(int), 1, HM);
-                fwrite(b->head->filename, len, 1, HM);
-                b->head = b->head->next;
+                fwrite(temp->filename, len, 1, HM);
+                temp = temp->next;
             }
         }
     }
-    
     fclose(HM);
 
 }
 
 struct HashMap *ReadHm(char *filename) {
-    FILE *fp1 = fopen(filename, "rb");
+
+    FILE *fp1 = NULL;
+    fp1 = fopen(filename, "rb");
 
     uint32_t size = 0;
     fread(&size, sizeof(uint32_t), 1, fp1);
 
-    struct Data *data = (struct Data*) malloc(size * sizeof(struct Data));
+    struct Data *data = NULL;
+    data = (struct Data*) malloc(size * sizeof(struct Data));
+    for (int i = 0; i < size; i++) {
+        data[i].key = 0;
+        data[i].empty = 0;
+        memset(data[i].filename, 0, sizeof(data[i].filename));
+    }
 
     int i = 0;
     int len = 0;
@@ -59,16 +69,18 @@ struct HashMap *ReadHm(char *filename) {
         data[i].empty = 1;
         i++;
     }
-    struct HashMap *Table = CreateHM(size);
+    struct HashMap *Table = NULL;
+    Table = CreateHM(size);
     for (int i = 0; i < size; i++)
     {
         if (data[i].empty == 1)
         {
-            Insert(data[i].key, Table, data[i].filename);
+            InsertElement(Table,data[i].key ,data[i].filename);
         }
-        
+
     }
     fclose(fp1);
+    free(data);
 
     return Table;
 }

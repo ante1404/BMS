@@ -5,7 +5,7 @@
 #include <math.h>
 #include "../Header files/HashTable.h"
 #include "../Header files/AccountMenagment.h"
-#include "../Header files/SaveHm.h"	
+#include "../Header files/SaveHm.h"
 
 uint32_t HashFunction(uint32_t key, uint32_t M){
 
@@ -30,42 +30,45 @@ struct HashMap *CreateHM(uint32_t size){
 			printf("FAILD");
 			return NULL;
 		}
-		Table->table[i]->head = (struct Node*)malloc(sizeof(struct Node));
-		Table->table[i]->head = NULL;
-		
+
+        Table->table[i]->head = NULL;
+
+
 	}
 	return Table;
 }
 
 
-int Insert(uint32_t key, struct HashMap *Table, char fn[50]){
-		
-	LIST temp = NULL;
+struct Node *Newnode(uint32_t key, struct HashMap *Table, char fn[50]){
 
-	LIST newnode = (struct Node*) malloc(sizeof(struct Node));
+    struct Node *newnode = (struct Node*) malloc(sizeof(struct Node));
 	if(newnode == NULL){
-		return 1;
+		return NULL;
 	}
 	strcpy(newnode->filename, fn);
 	newnode->key = key;
-	
-	uint32_t HashKey = 	HashFunction(key, Table->size);
 	newnode->next = NULL;
 
-	if(Table->table[HashKey]->head == NULL){
-
-		Table->table[HashKey]->head = newnode;
-	}
-	else{
-		temp = Table->table[HashKey]->head;
-			while(temp->next){
-				temp = temp->next;
-			}
-		temp->next = newnode;
-	}
-
-	return 0;
+	return newnode;
 }
+
+void InsertElement(struct HashMap *map, uint32_t key, char fn[50]){
+        struct Node *curr = NULL;
+        struct Node *newnode = Newnode(key, map, fn);
+        uint32_t HashKey = HashFunction(key, map->size);
+        if(map->table[HashKey]->head == NULL){
+
+            map->table[HashKey]->head = newnode;
+        }
+        else{
+            curr = map->table[HashKey]->head;
+            while(curr->next){
+                curr = curr->next;
+            }
+            curr->next = newnode;
+        }
+}
+
 
 void* Search(struct HashMap *map, uint32_t key){
 
@@ -75,18 +78,24 @@ void* Search(struct HashMap *map, uint32_t key){
 
 }
 
-int Delete(struct HashMap *map, uint32_t key){
-	
-	struct bin *b = map->table[HashFunction(key, map->size)];
-	
-	LIST temp = NULL;
+int Delete(struct HashMap *map){
 
-	while(b->head){
-		temp = b->head->next;
-		free(b->head);
-		b->head = temp;
-	}
-	free(map->table);
+    struct Node *temp = NULL;
+    struct Node *temp1 = NULL;
+
+    for (int i = 0; i < map->size; i++) {
+        if (map->table[i]->head != NULL) {
+            temp = map->table[i]->head;
+            while (temp) {
+                temp1 = temp->next;
+                free(temp);
+                temp = temp1;
+            }
+        }
+        free(map->table[i]);
+    }
+
+    free(map->table);
 	free(map);
 	return 0;
 }

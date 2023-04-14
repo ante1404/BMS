@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "../Header files/FinanceMenagment.h"
 #include "../Header files/HashTable.h"
 #include "../Header files/SaveHm.h"
@@ -10,18 +11,20 @@
 int main(int argc, char *argv[]){
 
 	char data[50];
+    data[0] = '\0';
     strcpy(data, argv[2]);
     char filename3[50];
+    filename3[0] = '\0';
     strcpy(filename3, argv[1]);
 
-    /*
-    struct HashMap *map = CreateHM(100);
 
+
+/*
     bool out = Login(username, password, filename3);
     if(out == true){
         return 0;
     }
-    */
+*/
     char buffer[50][2048];
     FILE *card_type = fopen(data, "r");
     int i = 0;
@@ -30,6 +33,7 @@ int main(int argc, char *argv[]){
         fgets(buffer[i], sizeof(buffer), card_type);
         i++;
     }
+    fclose(card_type);
     int visa[2] = {4, 16};
     int mastercard[2] = {5, 16};
     int amex[2] = {37, 15};
@@ -39,7 +43,7 @@ int main(int argc, char *argv[]){
     printf("%s",acc);
 
     int card = 1;
-    _strlwr(buffer[17]);
+    buffer[17][0] = tolower(*buffer[17]);
 
     int n = 0;
     if (strcmp(buffer[17], "visa\n") == 0){
@@ -52,22 +56,10 @@ int main(int argc, char *argv[]){
         card = CreditCardCreation(acc, filename3,amex);
 
     }
+    free(acc);
+
     return 0;
-    struct HashMap *map = ReadHm(filename3);
-    for (int i = 0; i < map->size; i++) {
-        struct bin *b = map->table[i];
-        if (b->head != NULL)
-        {
-           	LIST curr = b->head;
-       		while (curr) {
-            	printf("Pointer = %p, Key = %d, index = %d, Filename = %s, next pointer = %p\n", curr, curr->key, i, curr->filename, curr->next);
-            	curr = curr->next;
-			}
-        }
-    }
-    printf("\n");
-    WriteHm(map, filename3);
-    return 0;
+
 
 }
 

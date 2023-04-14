@@ -12,7 +12,7 @@ typedef struct HashMap *HM;
 
 
 struct Node
-{	
+{
 	LIST next;
 	uint32_t key;
 	char filename[50];
@@ -20,7 +20,7 @@ struct Node
 
 struct bin
 {
-	LIST head;
+	struct Node *head;
 };
 
 struct HashMap
@@ -33,9 +33,10 @@ struct HashMap
 
 uint32_t HashFunction(uint32_t key,uint32_t M);
 struct HashMap *CreateHM(uint32_t size);
-int Insert(uint32_t key, struct HashMap *Table, char fn[50]);
+struct Node *Newnode(uint32_t key, struct HashMap *Table, char fn[50]);
+void InsertElement(struct HashMap *map, uint32_t key, char fn[50]);
 void* Search(struct HashMap *map, uint32_t key);
-int Delite(struct HashMap *map, uint32_t key);
+int Delete(struct HashMap *map);
 
 
 #endif
