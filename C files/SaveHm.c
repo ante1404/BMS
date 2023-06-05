@@ -4,13 +4,6 @@
 #include <stdint.h>
 #include "../Header files/HashTable.h"
 
-struct Data{
-	uint32_t key;
-	char filename[50];
-	uint32_t empty;
-};
-
-
 
 void WriteHm(struct HashMap *map, char *filename){
 
