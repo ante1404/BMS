@@ -7,7 +7,7 @@
 
 void WriteHm(struct HashMap *map, char *filename){
 
-	FILE *HM = fopen(filename, "wb");
+    FILE *HM = fopen(filename, "wb");
 
     if (HM == NULL)
     {
@@ -58,7 +58,6 @@ struct HashMap *ReadHm(char *filename) {
     {
         fread(&len, sizeof(int), 1 , fp1);
         fgets(data[i].filename, len + 1, fp1);
-        //data[i].filename[len] = '\0'; // add null terminator
         data[i].empty = 1;
         i++;
     }
